@@ -56,19 +56,19 @@ const getTransactions= async() => {
     return txns;
   }
 }
+
+const getAccounts= async() => {
+  if (contractInstance) {
+    let txns = await contractInstance.getAccountsList();
+    return txns;
+  }
+}
 const getRecentTransactions= async() => {
   if (contractInstance) {
     let txns = await contractInstance.getRecentTransactions();
     return txns;
   }
 }
-const returnTestVal = async() => {
-  if (contractInstance) {
-    const val = await contractInstance.getTest();
-    console.log("Getting test value", val);
-      return val;
-  }
-}
 
-export {initializeContract, makePayment, addTransaction, getTransactions, getInstance, getRecentTransactions, returnTestVal };
+export {initializeContract, makePayment, addTransaction, getTransactions,getAccounts, getInstance, getRecentTransactions };
 

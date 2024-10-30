@@ -1,59 +1,49 @@
-export interface ExpensesByCategory {
-  salaries: number;
-  supplies: number;
-  services: number;
-}
-
-export interface Month {
-  id: string;
-  month: string;
-  revenue: number;
-  expenses: number;
-  nonOperationalExpenses: number;
-  operationalExpenses: number;
-}
-
-export interface Day {
-  id: string;
-  date: string;
-  revenue: number;
-  expenses: number;
-}
-
-export interface GetKpisResponse {
-  id: string;
-  _id: string;
-  __v: number;
-  totalProfit: number;
-  totalRevenue: number;
-  totalExpenses: number;
-  expensesByCategory: ExpensesByCategory;
-  monthlyData: Array<Month>;
-  dailyData: Array<Day>;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface GetProductsResponse {
-  id: string;
-  _id: string;
-  __v: number;
-  price: number;
-  expense: number;
-  transactions: Array<string>;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface GetTransactionsResponse {
-  id: string;
-  _id: string;
-  __v: number;
-  buyer: string;
   amount: number;
-  productIds: Array<string>;
-  createdAt: string;
-  updatedAt: string;
+  description: string;
+  recipient: string;
+  sender: string;
+  sentToOrg: boolean;
+  timestamp: number;
+  accountBalance: number;
+  date: {
+    day: number;
+    month: number;
+    year: number;
+  };
 }
 
+export interface TransactionData {
+  amount: string;
+  description: string;
+  recipient: string;
+  sender: string;
+  sentToOrg: boolean;
+  timestamp: string;
+  accountBalance: string;
+}
 
+export interface FormField {
+  label: string;
+  type: string;
+  name: keyof TransactionData;
+}
+export interface TransactionsPerMonth {
+  Month: string;
+  amtOfTxn: number;
+  received: number;
+  sent: number;
+}
+export interface AmountPerMonth {
+  Month: string;
+  amt: number;
+}
+
+export interface Account{
+  id:string;
+}
+
+export interface SentReceived{
+  sent: number;
+  received: number;
+}

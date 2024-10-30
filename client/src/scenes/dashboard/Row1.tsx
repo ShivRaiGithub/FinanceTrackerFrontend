@@ -3,7 +3,8 @@ import DashboardBox from "@/components/DashboardBox";
 import { useMemo } from "react";
 import FlexBetween from "@/components/FlexBetween";
 import { Box, Typography, useTheme } from "@mui/material";
-import { totalAmountOfTransactions, totalAmountPerMonth, receivedVsSent } from "@/data/processedData"; // Import the updated transactions
+
+
 import {
   ResponsiveContainer,
   CartesianGrid,
@@ -21,8 +22,19 @@ import {
   Area,
 } from "recharts";
 
+import { GetTransactionsResponse, TransactionData, TransactionsPerMonth, AmountPerMonth, Account, SentReceived } from '@/state/types';
 
-const Row1 = () => {
+interface Props {
+  totalAmountOfTransactions: TransactionsPerMonth[];
+  totalAmountPerMonth: AmountPerMonth[];
+  receivedVsSent: SentReceived;
+}
+
+const Row1: React.FC<Props> = ({
+  totalAmountOfTransactions,
+  totalAmountPerMonth,
+  receivedVsSent
+}) => {
 
   const { palette } = useTheme();
   const amtOfTxnMade = useMemo(() => {

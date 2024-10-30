@@ -4,11 +4,14 @@ import FlexBetween from "@/components/FlexBetween";
 
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
+import { GetTransactionsResponse, TransactionData, TransactionsPerMonth, AmountPerMonth, Account } from '@/state/types';
 
-import { products, transactions } from "@/data/data2";
-import { trackedAccounts, updatedTransactionsList } from "@/data/processedData";
+interface Props {
+  trackedAccounts: Account[];
+  updatedTransactionsList: GetTransactionsResponse[];
+}
 
-const Row3 = () => {
+const Row3: React.FC<Props> = ({ trackedAccounts, updatedTransactionsList }) => {
   const { palette } = useTheme();
   const trackedAccountsColumn = [
     {

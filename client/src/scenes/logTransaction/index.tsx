@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import DashboardBox from '@/components/DashboardBox';
-import { getTransactions, getInstance, addTransaction, getRecentTransactions, returnTestVal } from "@/connection/contractInstance";
-import { TransactionData, FormField } from '@/state/typesnew';
+import { getTransactions, getInstance, addTransaction, getRecentTransactions } from "@/connection/contractInstance";
+import { TransactionData, FormField } from '@/state/types';
 
 const testLog = async () => {
   try {
