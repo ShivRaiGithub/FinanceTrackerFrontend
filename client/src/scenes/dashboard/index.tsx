@@ -31,7 +31,7 @@ function convertTransactionDates(transactions: TransactionData[]): GetTransactio
     };
   });
 }
-
+  
 function calculateTransactionsPerMonth(transactions: GetTransactionsResponse[]): TransactionsPerMonth[] {
   const monthlyTransactions = transactions.reduce<Record<string, { count: number; received: number; sent: number }>>((acc, transaction) => {
     const date = new Date(transaction.timestamp * 1000);
@@ -94,16 +94,33 @@ const Dashboard = () => {
   const [sentReceived, setSentReceived] = useState<SentReceived>({ sent: 0, received: 0 });
   const [accountList, setAccountList] = useState<Account[]>([]);
 
+  
   useEffect(() => {
     const getData = async () => {
       if (contractInstance) {
-        const transactionsData: TransactionData[] = await contractInstance.getTransactions();
-        setTransactions(transactionsData);
+        // Fetch transactions data
+        const transactionsData: GetTransactionsResponse[] = await contractInstance.getTransactions();
+        
+        // Convert transaction data into objects of type TransactionData
+        const formattedTransactions: TransactionData[] = transactionsData.map(transaction => ({
+          amount: transaction.amount.toString(),           // Convert number to string
+          description: transaction.description,
+          recipient: transaction.recipient,
+          sender: transaction.sender,
+          sentToOrg: transaction.sentToOrg,
+          timestamp: transaction.timestamp.toString(),      // Convert number to string
+          accountBalance: transaction.accountBalance.toString(), // Convert number to string
+        }));
+        
+        setTransactions(formattedTransactions);
 
+        // Fetch and format accounts list
         const accountsList = await contractInstance.getAccountsList();
-        setAccountList(accountsList);
+        const formattedAccounts: Account[] = accountsList.map((account: string) => ({ id: account }));
+        setAccountList(formattedAccounts);
 
-        const processedTransaction: GetTransactionsResponse[] = convertTransactionDates(transactionsData);
+        // Process transactions and set other states
+        const processedTransaction: GetTransactionsResponse[] = convertTransactionDates(formattedTransactions);
         setProcessedTxn(processedTransaction);
         
         const transactionsPerMonth = calculateTransactionsPerMonth(processedTransaction);
@@ -156,15 +173,15 @@ const Dashboard = () => {
             }
       }
     >
-      <Row1
-        totalAmountOfTransactions={transactionsPerMonth}
-        totalAmountPerMonth={amountPerMonth}
-        receivedVsSent={sentReceived}
-      />
-      {/* <Row3
+        <Row1
+          totalAmountOfTransactions={transactionsPerMonth}
+          totalAmountPerMonth={amountPerMonth}
+          receivedVsSent={sentReceived}
+        />
+      <Row3
         trackedAccounts={accountList}
         updatedTransactionsList={processedTxn}
-      /> */}
+      />
     </Box>
   );
 };

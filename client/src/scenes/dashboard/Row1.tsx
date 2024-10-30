@@ -35,9 +35,7 @@ const Row1: React.FC<Props> = ({
   totalAmountPerMonth,
   receivedVsSent
 }) => {
-  console.log(  totalAmountOfTransactions,
-    totalAmountPerMonth,
-    receivedVsSent);
+ 
   const { palette } = useTheme();
   const amtOfTxnMade = useMemo(() => {
     return (
