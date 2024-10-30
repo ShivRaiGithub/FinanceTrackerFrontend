@@ -3,7 +3,7 @@ import DashboardBox from '@/components/DashboardBox';
 import { TransactionData, FormField } from '@/state/types';
 import { useContract } from "@/connection/contractContext";
 
-const LogTransaction: React.FC = () => {
+const MakeTransaction: React.FC = () => {
   const { contractInstance } = useContract();
 
   const [transaction, setTransaction] = useState<TransactionData>({
@@ -23,19 +23,19 @@ const LogTransaction: React.FC = () => {
     setTransaction(prev => ({ ...prev, [name]: newValue }));
   };
 
-  // const getRecent = async () => {
-  //   if (contractInstance) {
-  //     try {
-  //       const recentTransaction = await contractInstance.getRecentTransactions();
-  //       console.log("Recent Transaction:", recentTransaction);
-  //     } catch (error) {
-  //       console.error("Error getting recent transaction:", error);
-  //       setNotification('Failed to get recent transaction.');
-  //     }
-  //   } else {
-  //     console.log("No instance");
-  //   }
-  // }
+  const getRecent = async () => {
+    if (contractInstance) {
+      try {
+        const recentTransaction = await contractInstance.getRecentTransactions();
+        console.log("Recent Transaction:", recentTransaction);
+      } catch (error) {
+        console.error("Error getting recent transaction:", error);
+        setNotification('Failed to get recent transaction.');
+      }
+    } else {
+      console.log("No instance");
+    }
+  }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -165,10 +165,10 @@ const LogTransaction: React.FC = () => {
           cursor: "pointer"
         }}>Log Transaction</button>
 
-        {/* <button onClick={getRecent}> GET RECENT</button> */}
+        <button onClick={getRecent}> GET RECENT</button>
       </form>
     </DashboardBox>
   );
 };
 
-export default LogTransaction;
+export default MakeTransaction;

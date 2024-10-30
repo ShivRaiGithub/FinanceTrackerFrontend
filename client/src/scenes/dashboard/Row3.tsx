@@ -10,7 +10,6 @@ interface Props {
 }
 
 const Row3: React.FC<Props> = ({ trackedAccounts, updatedTransactionsList }) => {
-  console.log("List:", updatedTransactionsList);
 
   const { palette } = useTheme();
   const trackedAccountsColumn = [

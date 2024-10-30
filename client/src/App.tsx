@@ -9,6 +9,7 @@ import Navbar from "@/scenes/navbar";
 import Dashboard from "@/scenes/dashboard";
 import Home from "@/scenes/Home";
 import LogTransaction from "@/scenes/logTransaction";
+import MakeTransaction from "@/scenes/makeTransaction";
 import { ContractProvider } from "./connection/contractContext";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/logTransaction" element={<LogTransaction />} />
+                <Route path="/makeTransaction" element={<MakeTransaction />} />
               </Routes>
             </Box>
           </ThemeProvider>
