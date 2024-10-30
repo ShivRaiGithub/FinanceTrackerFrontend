@@ -23,20 +23,7 @@ const LogTransaction: React.FC = () => {
     setTransaction(prev => ({ ...prev, [name]: newValue }));
   };
 
-  // const getRecent = async () => {
-  //   if (contractInstance) {
-  //     try {
-  //       const recentTransaction = await contractInstance.getRecentTransactions();
-  //       console.log("Recent Transaction:", recentTransaction);
-  //     } catch (error) {
-  //       console.error("Error getting recent transaction:", error);
-  //       setNotification('Failed to get recent transaction.');
-  //     }
-  //   } else {
-  //     console.log("No instance");
-  //   }
-  // }
-
+  
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

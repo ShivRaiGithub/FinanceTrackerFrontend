@@ -1,19 +1,16 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import DashboardBox from '@/components/DashboardBox';
-import { TransactionData, FormField } from '@/state/types';
+import { FormField } from '@/state/types';
 import { useContract } from "@/connection/contractContext";
 
 const MakeTransaction: React.FC = () => {
   const { contractInstance } = useContract();
 
-  const [transaction, setTransaction] = useState<TransactionData>({
+  const [transaction, setTransaction] = useState({
     amount: '',
     description: '',
     recipient: '',
-    sender: '',
-    sentToOrg: false,
-    timestamp: '',
-    accountBalance: ''
+    sentToOrg: false
   });
   const [notification, setNotification] = useState<string>('');
 
@@ -23,35 +20,18 @@ const MakeTransaction: React.FC = () => {
     setTransaction(prev => ({ ...prev, [name]: newValue }));
   };
 
-  const getRecent = async () => {
-    if (contractInstance) {
-      try {
-        const recentTransaction = await contractInstance.getRecentTransactions();
-        console.log("Recent Transaction:", recentTransaction);
-      } catch (error) {
-        console.error("Error getting recent transaction:", error);
-        setNotification('Failed to get recent transaction.');
-      }
-    } else {
-      console.log("No instance");
-    }
-  }
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (contractInstance) {
       try {
         const parsedAmount = parseInt(transaction.amount);
-        const parsedTimestamp = new Date(transaction.timestamp).getTime();
 
-        await contractInstance.addTransaction(
+        await contractInstance.makePayment(
           parsedAmount,
           transaction.description,
           transaction.recipient,
-          transaction.sender,
           transaction.sentToOrg,
-          parsedTimestamp
         );
 
         setNotification('Transaction in process...');
@@ -59,17 +39,14 @@ const MakeTransaction: React.FC = () => {
           amount: '',
           description: '',
           recipient: '',
-          sender: '',
-          sentToOrg: false,
-          timestamp: '',
-          accountBalance: ''
+          sentToOrg: false
         });
 
         // Clear notification after 3 seconds
         setTimeout(() => setNotification(''), 3000);
       } catch (error) {
-        console.error("Error logging transaction:", error);
-        setNotification('Failed to log transaction.');
+        console.error("Error Making Payment:", error);
+        setNotification('Failed to make payment.');
       }
     } else {
       console.log("No instance");
@@ -80,10 +57,7 @@ const MakeTransaction: React.FC = () => {
     { label: 'Amount', type: 'number', name: 'amount' },
     { label: 'Description', type: 'textarea', name: 'description' },
     { label: 'Recipient', type: 'text', name: 'recipient' },
-    { label: 'Sender', type: 'text', name: 'sender' },
     { label: 'Sent to Organization', type: 'checkbox', name: 'sentToOrg' },
-    { label: 'Timestamp', type: 'datetime-local', name: 'timestamp' },
-    { label: 'Account Balance', type: 'number', name: 'accountBalance' }
   ];
 
   return (
@@ -163,9 +137,8 @@ const MakeTransaction: React.FC = () => {
           border: "none",
           borderRadius: "4px",
           cursor: "pointer"
-        }}>Log Transaction</button>
+        }}>Make Payment</button>
 
-        <button onClick={getRecent}> GET RECENT</button>
       </form>
     </DashboardBox>
   );

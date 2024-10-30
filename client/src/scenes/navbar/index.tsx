@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import PixIcon from "@mui/icons-material/Pix";
 import { Box, Typography, useTheme } from "@mui/material";
 import FlexBetween from "@/components/FlexBetween";
-import LogTransaction from "../logTransaction";
 
 type Props = {};
 
@@ -24,6 +23,18 @@ const Navbar = (props: Props) => {
             }}
             >
             Dashboard
+          </Link>
+            </Box>
+        <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
+          <Link
+            to="/makeTransaction"
+            onClick={() => setSelected("makeTransaction")}
+            style={{
+              color: selected === "makeTransaction" ? "inherit" : palette.grey[700],
+              textDecoration: "inherit",
+            }}
+            >
+            Make Payment
           </Link>
             </Box>
               <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
