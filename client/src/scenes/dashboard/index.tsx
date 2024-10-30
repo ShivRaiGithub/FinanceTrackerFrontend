@@ -1,16 +1,18 @@
+// dashboard/index.tsx
 import { useEffect, useState } from "react";
 import { Box, useMediaQuery } from "@mui/material";
 import Row1 from "./Row1";
 import Row3 from "./Row3";
-import { getTransactions, getAccounts } from "@/connection/contractInstance";
-import { 
-  GetTransactionsResponse, 
-  TransactionData, 
-  TransactionsPerMonth, 
-  AmountPerMonth, 
-  Account, 
-  SentReceived 
+import { useContract } from "@/connection/contractContext";
+import {
+  GetTransactionsResponse,
+  TransactionData,
+  TransactionsPerMonth,
+  AmountPerMonth,
+  Account,
+  SentReceived
 } from '@/state/types';
+ 
 
 // Convert TransactionData[] to GetTransactionsResponse[] with formatted dates
 function convertTransactionDates(transactions: TransactionData[]): GetTransactionsResponse[] {
@@ -81,8 +83,10 @@ export function calculateTotalSentReceived(transactions: GetTransactionsResponse
   return { sent: totals.sent, received: totals.received };
 }
 
+
 const Dashboard = () => {
   const isAboveMediumScreens = useMediaQuery("(min-width: 1200px)");
+  const { contractInstance } = useContract();
   const [transactions, setTransactions] = useState<TransactionData[]>([]);
   const [processedTxn, setProcessedTxn] = useState<GetTransactionsResponse[]>([]);
   const [transactionsPerMonth, setTransactionsPerMonth] = useState<TransactionsPerMonth[]>([]);
@@ -92,27 +96,29 @@ const Dashboard = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const transactionsData: TransactionData[] = await getTransactions();
-      setTransactions(transactionsData);
+      if (contractInstance) {
+        const transactionsData: TransactionData[] = await contractInstance.getTransactions();
+        setTransactions(transactionsData);
 
-      const accountsList = await getAccounts();
-      setAccountList(accountsList);
+        const accountsList = await contractInstance.getAccountsList();
+        setAccountList(accountsList);
 
-      const processedTransaction: GetTransactionsResponse[] = convertTransactionDates(transactionsData);
-      setProcessedTxn(processedTransaction);
+        const processedTransaction: GetTransactionsResponse[] = convertTransactionDates(transactionsData);
+        setProcessedTxn(processedTransaction);
+        
+        const transactionsPerMonth = calculateTransactionsPerMonth(processedTransaction);
+        setTransactionsPerMonth(transactionsPerMonth);
 
-      const transactionsPerMonth = calculateTransactionsPerMonth(processedTransaction);
-      setTransactionsPerMonth(transactionsPerMonth);
+        const amountPerMonth = calculateAmountOfMoneyPerMonth(processedTransaction);
+        setAmountPerMonth(amountPerMonth);
 
-      const amountPerMonth = calculateAmountOfMoneyPerMonth(processedTransaction);
-      setAmountPerMonth(amountPerMonth);
-
-      const sentReceived = calculateTotalSentReceived(processedTransaction);
-      setSentReceived(sentReceived);
+        const sentReceived = calculateTotalSentReceived(processedTransaction);
+        setSentReceived(sentReceived);
+      }
     };
 
     getData();
-  }, []);
+  }, [contractInstance]);
 
   return (
     <Box
@@ -150,15 +156,15 @@ const Dashboard = () => {
             }
       }
     >
-      <Row1 
+      <Row1
         totalAmountOfTransactions={transactionsPerMonth}
         totalAmountPerMonth={amountPerMonth}
         receivedVsSent={sentReceived}
       />
-      <Row3 
+      {/* <Row3
         trackedAccounts={accountList}
         updatedTransactionsList={processedTxn}
-      />
+      /> */}
     </Box>
   );
 };
