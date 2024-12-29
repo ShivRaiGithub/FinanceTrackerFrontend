@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import PixIcon from "@mui/icons-material/Pix";
 import { Box, Typography, useTheme } from "@mui/material";
 import FlexBetween from "@/components/FlexBetween";
 
@@ -27,6 +26,18 @@ const Navbar = (props: Props) => {
             </Box>
         <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
           <Link
+            to="/createContract"
+            onClick={() => setSelected("createContract")}
+            style={{
+              color: selected === "createContract" ? "inherit" : palette.grey[700],
+              textDecoration: "inherit",
+            }}
+            >
+            Create Contract
+          </Link>
+            </Box>
+        {/* <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
+          <Link
             to="/makeTransaction"
             onClick={() => setSelected("makeTransaction")}
             style={{
@@ -36,7 +47,7 @@ const Navbar = (props: Props) => {
             >
             Make Payment
           </Link>
-            </Box>
+            </Box> */}
               <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
           <Link
             to="/logTransaction"

@@ -26,13 +26,14 @@ const MakeTransaction: React.FC = () => {
     if (contractInstance) {
       try {
         const parsedAmount = parseInt(transaction.amount);
-
+        console.log("YES");
         await contractInstance.makePayment(
           parsedAmount,
           transaction.description,
           transaction.recipient,
           transaction.sentToOrg,
-        );
+          );
+          console.log("YE22");
 
         setNotification('Transaction in process...');
         setTransaction({
@@ -41,6 +42,7 @@ const MakeTransaction: React.FC = () => {
           recipient: '',
           sentToOrg: false
         });
+        console.log("YES333");
 
         // Clear notification after 3 seconds
         setTimeout(() => setNotification(''), 3000);
