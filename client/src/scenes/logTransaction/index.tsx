@@ -30,7 +30,7 @@ const LogTransaction: React.FC = () => {
     if (contractInstance) {
       try {
         const parsedAmount = parseInt(transaction.amount);
-        const parsedTimestamp = new Date(transaction.timestamp).getTime();
+        const parsedTimestamp = new Date(transaction.timestamp).getTime()/1000;
 
         await contractInstance.addTransaction(
           parsedAmount,

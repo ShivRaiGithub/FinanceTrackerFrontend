@@ -86,7 +86,7 @@ export function calculateTotalSentReceived(transactions: GetTransactionsResponse
 
 const Dashboard = () => {
   const isAboveMediumScreens = useMediaQuery("(min-width: 1200px)");
-  const { contractInstance } = useContract();
+  const { contractInstance, getTransactions, getAccounts } = useContract();
   const [transactions, setTransactions] = useState<TransactionData[]>([]);
   const [processedTxn, setProcessedTxn] = useState<GetTransactionsResponse[]>([]);
   const [transactionsPerMonth, setTransactionsPerMonth] = useState<TransactionsPerMonth[]>([]);
@@ -99,7 +99,7 @@ const Dashboard = () => {
     const getData = async () => {
       if (contractInstance) {
         // Fetch transactions data
-        const transactionsData: GetTransactionsResponse[] = await contractInstance.getTransactions();
+        const transactionsData: GetTransactionsResponse[] = await getTransactions();
         
         // Convert transaction data into objects of type TransactionData
         const formattedTransactions: TransactionData[] = transactionsData.map(transaction => ({
@@ -115,7 +115,7 @@ const Dashboard = () => {
         setTransactions(formattedTransactions);
 
         // Fetch and format accounts list
-        const accountsList = await contractInstance.getAccountsList();
+        const accountsList = await getAccounts();
         const formattedAccounts: Account[] = accountsList.map((account: string) => ({ id: account }));
         setAccountList(formattedAccounts);
 

@@ -1,0 +1,1 @@
+[{"type":"function","name":"createFinanceSystem","inputs":[{"name":"_orgName","type":"string","internalType":"string"}],"outputs":[{"name":"","type":"address","internalType":"address"}],"stateMutability":"nonpayable"},{"type":"function","name":"getFinanceSystemsList","inputs":[],"outputs":[{"name":"","type":"address[]","internalType":"address[]"}],"stateMutability":"view"}]
