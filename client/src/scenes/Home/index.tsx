@@ -1,4 +1,4 @@
-import { useContract } from '@/connection/contractContext';
+import { useContract } from '@/connection/fsContractContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function Home(): React.ReactElement {

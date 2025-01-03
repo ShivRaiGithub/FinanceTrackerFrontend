@@ -9,7 +9,7 @@ import Navbar from "@/scenes/navbar";
 import Dashboard from "@/scenes/dashboard";
 import Home from "@/scenes/Home";
 import LogTransaction from "@/scenes/logTransaction";
-import { ContractProvider } from "./connection/contractContext";
+import { ContractProvider } from "./connection/fsContractContext";
 
 function App() {
   const theme = useMemo(() => createTheme(themeSettings), []);

@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import DashboardBox from '@/components/DashboardBox';
 import { TransactionData, FormField } from '@/state/types';
-import { useContract } from "@/connection/contractContext";
+import { useContract } from "@/connection/fsContractContext";
 
 const LogTransaction: React.FC = () => {
   const { contractInstance } = useContract();

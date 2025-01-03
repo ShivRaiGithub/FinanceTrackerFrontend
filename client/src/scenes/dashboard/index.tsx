@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Box, useMediaQuery } from "@mui/material";
 import Row1 from "./Row1";
 import Row3 from "./Row3";
-import { useContract } from "@/connection/contractContext";
+import { useContract } from "@/connection/fsContractContext";
 import {
   GetTransactionsResponse,
   TransactionData,

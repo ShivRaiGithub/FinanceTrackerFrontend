@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { ethers } from "ethers";
 import contractABI from "./fsabi.json";
 
@@ -8,21 +8,14 @@ declare global {
   }
 }
 
-const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 interface ContractContextType {
   connectWallet: () => Promise<void>;
   contractInstance: ethers.Contract | null;
   account: string | null;
-  makePayment: (amount: number, description: string, recipient: string, sentToOrg: boolean) => void;
-  addTransaction: (
-    amount: number,
-    description: string,
-    recipient: string,
-    sender: string,
-    sentToOrg: boolean,
-    timestamp: number
-  ) => void;
+  signer: ethers.Signer | null;
+  setContractSignerAccount: (address: string, sign: ethers.Signer, account: string) => void;
+  addTransaction: (amount: number,description: string,recipient: string,sender: string,sentToOrg: boolean,timestamp: number) => void;
   getTransactions: () => Promise<any>;
   getAccounts: () => Promise<any>;
   getRecentTransactions: () => Promise<any>;
@@ -31,17 +24,14 @@ interface ContractContextType {
 const ContractContext = createContext<ContractContextType | undefined>(undefined);
 
 export const ContractProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [contractAddress, setContractAddress]= useState<string | null>(null);
   const [contractInstance, setContractInstance] = useState<ethers.Contract | null>(null);
+  const [signer, setSigner] = useState<ethers.Signer | null>(null);
   const [account, setAccount] = useState<string | null>(null);
 
   const connectWallet = async () => {
-    if (window.ethereum !== "undefined") {
+    if (window.ethereum !== "undefined" && contractAddress!=null && signer!=null) {
       try {
-        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-        setAccount(accounts[0]);
-        console.log("Account connected:", accounts[0]);
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const signer = await provider.getSigner();
         const contract = new ethers.Contract(contractAddress, contractABI, signer);
         setContractInstance(contract);
         console.log("Contract initialized");
@@ -53,14 +43,15 @@ export const ContractProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   };
 
-  const addTransaction = (
-    amount: number,
-    description: string,
-    recipient: string,
-    sender: string,
-    sentToOrg: boolean,
-    timestamp: number
-  ) => {
+  const setContractSignerAccount = (address: string, sign: ethers.Signer, account: string) =>{
+    setContractAddress(address);
+    setSigner(sign);
+    setAccount(account);
+  }
+
+  
+
+  const addTransaction = (amount: number,description: string,recipient: string,sender: string,sentToOrg: boolean,timestamp: number) => {
     if (contractInstance) {
       console.log("Adding transaction");
       contractInstance.addTransaction(amount, description, recipient, sender, sentToOrg, timestamp);
@@ -97,6 +88,8 @@ export const ContractProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         connectWallet,
         contractInstance,
         account,
+        signer,
+        setContractSignerAccount,
         addTransaction,
         getTransactions,
         getAccounts,
