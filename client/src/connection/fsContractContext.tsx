@@ -2,15 +2,8 @@ import React, { createContext, useContext, useState } from "react";
 import { ethers } from "ethers";
 import contractABI from "./fsabi.json";
 
-declare global {
-  interface Window {
-    ethereum: any;
-  }
-}
-
-
 interface ContractContextType {
-  connectWallet: () => Promise<void>;
+  setFinanceContract: () => Promise<void>;
   contractInstance: ethers.Contract | null;
   account: string | null;
   signer: ethers.Signer | null;
@@ -21,16 +14,16 @@ interface ContractContextType {
   getRecentTransactions: () => Promise<any>;
 }
 
-const ContractContext = createContext<ContractContextType | undefined>(undefined);
+const FsContractContext = createContext<ContractContextType | undefined>(undefined);
 
-export const ContractProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const FsContractProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [contractAddress, setContractAddress]= useState<string | null>(null);
   const [contractInstance, setContractInstance] = useState<ethers.Contract | null>(null);
   const [signer, setSigner] = useState<ethers.Signer | null>(null);
   const [account, setAccount] = useState<string | null>(null);
 
-  const connectWallet = async () => {
-    if (window.ethereum !== "undefined" && contractAddress!=null && signer!=null) {
+  const setFinanceContract = async () => {
+    if (contractAddress!=null && signer!=null) {
       try {
         const contract = new ethers.Contract(contractAddress, contractABI, signer);
         setContractInstance(contract);
@@ -83,26 +76,15 @@ export const ContractProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   return (
-    <ContractContext.Provider
-      value={{
-        connectWallet,
-        contractInstance,
-        account,
-        signer,
-        setContractSignerAccount,
-        addTransaction,
-        getTransactions,
-        getAccounts,
-        getRecentTransactions,
-      }}
-    >
+    <FsContractContext.Provider
+      value={{setFinanceContract,contractInstance,account,signer,setContractSignerAccount,addTransaction,getTransactions,getAccounts,getRecentTransactions,}}>
       {children}
-    </ContractContext.Provider>
+    </FsContractContext.Provider>
   );
 };
 
 export const useContract = (): ContractContextType => {
-  const context = useContext(ContractContext);
+  const context = useContext(FsContractContext);
   if (!context) {
     throw new Error("useContract must be used within a ContractProvider");
   }

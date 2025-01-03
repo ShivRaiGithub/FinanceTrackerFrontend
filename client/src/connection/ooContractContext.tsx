@@ -19,9 +19,9 @@ interface ContractContextType {
   getFSAddressesByOwner: () => Promise<any>;
 }
 
-const ContractContext = createContext<ContractContextType | undefined>(undefined);
+const OoContractContext = createContext<ContractContextType | undefined>(undefined);
 
-export const ContractProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const OoContractProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [ooContractInstance, setOoContractInstance] = useState<ethers.Contract | null>(null);
   const [account, setAccount] = useState<string | null>(null);
   const [signer, setSigner] = useState<ethers.Signer | null>(null);
@@ -64,7 +64,7 @@ export const ContractProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   return (
-    <ContractContext.Provider
+    <OoContractContext.Provider
       value={{
         connectWallet,
         ooContractInstance,
@@ -75,12 +75,12 @@ export const ContractProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       }}
     >
       {children}
-    </ContractContext.Provider>
+    </OoContractContext.Provider>
   );
 };
 
 export const useContract = (): ContractContextType => {
-  const context = useContext(ContractContext);
+  const context = useContext(OoContractContext);
   if (!context) {
     throw new Error("useContract must be used within a ContractProvider");
   }

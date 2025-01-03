@@ -14,6 +14,18 @@ const Navbar = (props: Props) => {
       <FlexBetween gap="2rem">
         <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
           <Link
+            to="/"
+            onClick={() => setSelected("dashboard")}
+            style={{
+              color: selected === "dashboard" ? "inherit" : palette.grey[700],
+              textDecoration: "inherit",
+            }}
+            >
+            Home
+          </Link>
+            </Box>
+        <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
+          <Link
             to="/dashboard"
             onClick={() => setSelected("dashboard")}
             style={{
@@ -22,18 +34,6 @@ const Navbar = (props: Props) => {
             }}
             >
             Dashboard
-          </Link>
-            </Box>
-        <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
-          <Link
-            to="/createContract"
-            onClick={() => setSelected("createContract")}
-            style={{
-              color: selected === "createContract" ? "inherit" : palette.grey[700],
-              textDecoration: "inherit",
-            }}
-            >
-            Create Contract
           </Link>
             </Box>
         {/* <Box sx={{ "&:hover": { color: palette.primary[100] } }}>

@@ -9,7 +9,8 @@ import Navbar from "@/scenes/navbar";
 import Dashboard from "@/scenes/dashboard";
 import Home from "@/scenes/Home";
 import LogTransaction from "@/scenes/logTransaction";
-import { ContractProvider } from "./connection/fsContractContext";
+import { OoContractProvider } from "./connection/ooContractContext";
+import { FsContractProvider } from "./connection/fsContractContext";
 
 function App() {
   const theme = useMemo(() => createTheme(themeSettings), []);
@@ -17,7 +18,8 @@ function App() {
   return (
     <div className="app">
       <BrowserRouter>
-        <ContractProvider>
+        <OoContractProvider>
+        <FsContractProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <Box width="100%" height="100%" padding="1rem 2rem 4rem 2rem">
@@ -29,7 +31,8 @@ function App() {
               </Routes>
             </Box>
           </ThemeProvider>
-        </ContractProvider>
+        </FsContractProvider>
+        </OoContractProvider>
       </BrowserRouter>
     </div>
   );
