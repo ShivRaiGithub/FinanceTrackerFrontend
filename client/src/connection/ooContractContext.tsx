@@ -15,6 +15,10 @@ interface ContractContextType {
   ooContractInstance: ethers.Contract | null;
   account: string | null;
   signer: ethers.Signer | null;
+  initialized: boolean;
+  isOwner: boolean;
+  settingInitTrue: ()=> void;
+  setIfOwner: (val: boolean)=> void;
   createFS: (orgName: string) => Promise<any> | "0";
   getFSAddressesByOwner: () => Promise<any>;
 }
@@ -25,6 +29,8 @@ export const OoContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [ooContractInstance, setOoContractInstance] = useState<ethers.Contract | null>(null);
   const [account, setAccount] = useState<string | null>(null);
   const [signer, setSigner] = useState<ethers.Signer | null>(null);
+  const [initialized, setInitialized]=useState<boolean>(false);
+  const [isOwner, setIsOwner]=useState<boolean>(false);
 
   const connectWallet = async () => {
     if (window.ethereum !== "undefined") {
@@ -45,6 +51,14 @@ export const OoContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       console.error("Ethereum object not found, install MetaMask.");
     }
   };
+
+  const settingInitTrue = () =>{
+    setInitialized(true);
+  }
+
+  const setIfOwner = (val : boolean) =>{
+    setIsOwner(val);
+  }
 
   const createFS = async (orgName: string) => {
     if (ooContractInstance) {
@@ -70,6 +84,10 @@ export const OoContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         ooContractInstance,
         account,
         signer,
+        initialized,
+        isOwner,
+        settingInitTrue,
+        setIfOwner,
         createFS,
         getFSAddressesByOwner,
       }}

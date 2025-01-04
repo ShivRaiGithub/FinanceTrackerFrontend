@@ -4,7 +4,7 @@ import { useContract as useFSContract } from "@/connection/fsContractContext";
 import { useNavigate } from "react-router-dom";
 
 export default function Home(): React.ReactElement {
-  const { connectWallet, account, getFSAddressesByOwner, signer } = useContract();
+  const { connectWallet, account, settingInitTrue, getFSAddressesByOwner, signer, setIfOwner } = useContract();
   const { setContractSignerAccount, setFinanceContract } = useFSContract();
   const navigate = useNavigate();
   
@@ -17,11 +17,13 @@ export default function Home(): React.ReactElement {
       const addresses = await getFSAddressesByOwner();
       console.log(addresses);
       setFSAddresses(addresses);
+      setIfOwner(true);
       setRole("owner");
     }
   };
 
   const handleUserLogin = () => {
+    setIfOwner(false);
     setRole("user");
   };
 
@@ -29,7 +31,8 @@ export default function Home(): React.ReactElement {
     if (signer && account && selectedFSAddress) {
       setContractSignerAccount(selectedFSAddress, signer, account);
       setFinanceContract()
-      setTimeout(() => navigate("/dashboard"), 1000);
+      settingInitTrue();
+      setTimeout(() => navigate("/logTransaction"), 1000);
     }
   };
 
@@ -57,7 +60,7 @@ export default function Home(): React.ReactElement {
                 ))}
               </select>
               <button onClick={handleSelectFSAddress} disabled={!selectedFSAddress}>
-                Go to Dashboard
+                Login
               </button>
             </>
           ) : (

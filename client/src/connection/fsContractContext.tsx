@@ -23,10 +23,12 @@ export const FsContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [account, setAccount] = useState<string | null>(null);
 
   const setFinanceContract = async () => {
+    console.log("details are", contractAddress, signer);
     if (contractAddress!=null && signer!=null) {
       try {
         const contract = new ethers.Contract(contractAddress, contractABI, signer);
         setContractInstance(contract);
+        console.log("Contract is", contract);
         console.log("Contract initialized");
       } catch (error) {
         console.error("Failed to connect wallet:", error);

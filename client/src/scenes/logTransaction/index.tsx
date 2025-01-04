@@ -70,7 +70,6 @@ const LogTransaction: React.FC = () => {
     { label: 'Sender', type: 'text', name: 'sender' },
     { label: 'Sent to Organization', type: 'checkbox', name: 'sentToOrg' },
     { label: 'Timestamp', type: 'datetime-local', name: 'timestamp' },
-    { label: 'Account Balance', type: 'number', name: 'accountBalance' }
   ];
 
   return (
@@ -152,7 +151,6 @@ const LogTransaction: React.FC = () => {
           cursor: "pointer"
         }}>Log Transaction</button>
 
-        {/* <button onClick={getRecent}> GET RECENT</button> */}
       </form>
     </DashboardBox>
   );
