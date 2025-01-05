@@ -3,13 +3,20 @@ import DashboardBox from "@/components/DashboardBox";
 import { Box, useTheme } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import { GetTransactionsResponse, Account } from '@/state/types';
-
+import { useState, useEffect } from "react";
 interface Props {
   trackedAccounts: Account[];
   updatedTransactionsList: GetTransactionsResponse[];
 }
 
 const Row3: React.FC<Props> = ({ trackedAccounts, updatedTransactionsList }) => {
+  const [latestTransactions, setLatestTransactions] = useState<GetTransactionsResponse[]>([]);
+
+  useEffect(() => {
+    const latestTxns = [...updatedTransactionsList].reverse().slice(0, 10); // Get latest 5 transactions
+    setLatestTransactions(latestTxns);
+  }, [updatedTransactionsList]);
+
 
   const { palette } = useTheme();
   const trackedAccountsColumn = [
@@ -109,14 +116,14 @@ const Row3: React.FC<Props> = ({ trackedAccounts, updatedTransactionsList }) => 
     },
   }}
 >
-  <DataGrid
-    columnHeaderHeight={25}
-    rowHeight={35}
-    hideFooter={true}
-    rows={(updatedTransactionsList || []).slice().reverse()} // Reverse the array
-    columns={transactionColumns}
-    getRowId={(row) => row.timestamp} // Fallback to other properties
-  />
+<DataGrid
+  columnHeaderHeight={25}
+  rowHeight={35}
+  hideFooter={true}
+  rows={latestTransactions}
+  columns={transactionColumns}
+  getRowId={(row) => `${row.timestamp}`} // Ensure unique row ID
+/>
 </Box>
 </DashboardBox>
 </>

@@ -32,6 +32,7 @@ const Navbar = (props: Props) => {
         {initialized && (
           <>
             {isOwner && (
+              <>
               <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
                 <Link
                   to="/dashboard"
@@ -44,6 +45,19 @@ const Navbar = (props: Props) => {
                   Dashboard
                 </Link>
               </Box>
+              <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
+                <Link
+                  to="/accounts"
+                  onClick={() => setSelected("accounts")}
+                  style={{
+                    color: selected === "accounts" ? "inherit" : palette.grey[700],
+                    textDecoration: "inherit",
+                  }}
+                >
+                  Accounts
+                </Link>
+              </Box>
+              </>
             )}
 
             <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
@@ -63,7 +77,6 @@ const Navbar = (props: Props) => {
       </FlexBetween>
 
       <Box sx={{ ml: "auto" }}>
-        {/* {orgName || "Loading Org Name..."} */}
         {orgName}
       </Box>
     </FlexBetween>

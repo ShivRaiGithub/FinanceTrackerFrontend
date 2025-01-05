@@ -12,6 +12,8 @@ interface ContractContextType {
   addTransaction: (amount: number,description: string,recipient: string,sender: string,sentToOrg: boolean,timestamp: number) => void;
   getTransactions: () => Promise<any>;
   getAccounts: () => Promise<any>;
+  addAccount: (acc: string) => Promise<any>;
+  removeAccount: (acc: string) => Promise<any>;
   getRecentTransactions: () => Promise<any>;
 }
 
@@ -51,10 +53,12 @@ export const FsContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   
 
-  const addTransaction = (amount: number,description: string,recipient: string,sender: string,sentToOrg: boolean,timestamp: number) => {
+  const addTransaction = async (amount: number,description: string,recipient: string,sender: string,sentToOrg: boolean,timestamp: number) => {
     if (contractInstance) {
       console.log("Adding transaction");
-      contractInstance.addTransaction(amount, description, recipient, sender, sentToOrg, timestamp);
+      const tx = await contractInstance.addTransaction(amount, description, recipient, sender, sentToOrg, timestamp);
+      await tx.wait();
+      console.log("Transaction added");
     }
   };
 
@@ -73,6 +77,21 @@ export const FsContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
     return [];
   };
+  const addAccount = async (acc : string) => {
+    if (contractInstance) {
+      const txn = await contractInstance.addAccount(acc);
+      await txn.wait();
+      console.log("Account added");
+    }
+  };
+
+  const removeAccount = async (acc: string) => {
+    if (contractInstance) {
+      const txn = await contractInstance.removeAccount(acc);
+      await txn.wait();
+      console.log("Account remmoved");
+    }
+  };
 
   const getRecentTransactions = async () => {
     if (contractInstance) {
@@ -84,7 +103,7 @@ export const FsContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   return (
     <FsContractContext.Provider
-      value={{setFinanceContract,contractInstance,account,signer,setContractSignerAccount,addTransaction,getTransactions,orgName,getAccounts,getRecentTransactions,}}>
+      value={{setFinanceContract,contractInstance,account,signer,setContractSignerAccount,addTransaction,getTransactions,orgName,getAccounts,getRecentTransactions,addAccount, removeAccount}}>
       {children}
     </FsContractContext.Provider>
   );

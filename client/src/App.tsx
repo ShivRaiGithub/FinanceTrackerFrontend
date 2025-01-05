@@ -8,6 +8,7 @@ import { themeSettings } from "./theme";
 import Navbar from "@/scenes/navbar";
 import Dashboard from "@/scenes/dashboard";
 import Home from "@/scenes/Home";
+import Accounts from "@/scenes/Accounts";
 import LogTransaction from "@/scenes/logTransaction";
 import { OoContractProvider } from "./connection/ooContractContext";
 import { FsContractProvider } from "./connection/fsContractContext";
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/logTransaction" element={<LogTransaction />} />
+                <Route path="/accounts" element={<Accounts />} />
               </Routes>
             </Box>
           </ThemeProvider>
