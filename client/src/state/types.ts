@@ -5,7 +5,6 @@ export interface GetTransactionsResponse {
   sender: string;
   sentToOrg: boolean;
   timestamp: number;
-  accountBalance: number;
   date: {
     day: number;
     month: number;
@@ -20,7 +19,6 @@ export interface TransactionData {
   sender: string;
   sentToOrg: boolean;
   timestamp: string;
-  accountBalance: string;
 }
 
 export interface FormField {

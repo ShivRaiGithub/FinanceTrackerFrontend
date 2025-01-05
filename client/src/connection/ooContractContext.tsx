@@ -63,8 +63,12 @@ export const OoContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const createFS = async (orgName: string) => {
     if (ooContractInstance) {
       console.log("Creating FS");
-      const addr = await ooContractInstance.createFinanceSystem(orgName);
-      return addr;
+      const tx = await ooContractInstance.createFinanceSystem(orgName);
+      console.log(tx);
+      const receipt = await tx.wait();
+
+    console.log("New Finance System deployed at:", receipt);
+    return receipt;
     }
     return "0";
   };

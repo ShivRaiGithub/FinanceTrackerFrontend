@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Box, Typography, useTheme } from "@mui/material";
 import FlexBetween from "@/components/FlexBetween";
 import { useContract } from "@/connection/ooContractContext";
+import { useContract as useFSContract } from "@/connection/fsContractContext";
 
 type Props = {};
 
 const Navbar = (props: Props) => {
   const { initialized, isOwner } = useContract();
+  const { orgName } = useFSContract();
   const { palette } = useTheme();
   const [selected, setSelected] = useState("dashboard");
 
@@ -59,6 +61,11 @@ const Navbar = (props: Props) => {
           </>
         )}
       </FlexBetween>
+
+      <Box sx={{ ml: "auto" }}>
+        {/* {orgName || "Loading Org Name..."} */}
+        {orgName}
+      </Box>
     </FlexBetween>
   );
 };

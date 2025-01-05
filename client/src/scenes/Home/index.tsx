@@ -4,13 +4,14 @@ import { useContract as useFSContract } from "@/connection/fsContractContext";
 import { useNavigate } from "react-router-dom";
 
 export default function Home(): React.ReactElement {
-  const { connectWallet, account, settingInitTrue, getFSAddressesByOwner, signer, setIfOwner } = useContract();
+  const { connectWallet, account, settingInitTrue, getFSAddressesByOwner, signer, setIfOwner, createFS } = useContract();
   const { setContractSignerAccount, setFinanceContract } = useFSContract();
   const navigate = useNavigate();
   
   const [role, setRole] = useState<"owner" | "user" | null>(null);
   const [fsAddresses, setFSAddresses] = useState<string[]>([]);
   const [selectedFSAddress, setSelectedFSAddress] = useState<string>("");
+  const [newFSName, setNewFSName] = useState<string>("");
 
   const handleOwnerLogin = async () => {
     if (account) {
@@ -30,9 +31,19 @@ export default function Home(): React.ReactElement {
   const handleSelectFSAddress = () => {
     if (signer && account && selectedFSAddress) {
       setContractSignerAccount(selectedFSAddress, signer, account);
-      setFinanceContract()
+      setFinanceContract(selectedFSAddress, signer);
       settingInitTrue();
-      setTimeout(() => navigate("/logTransaction"), 1000);
+      setTimeout(() => navigate("/logTransaction"), 2000);
+    }
+  };
+
+  const handleDeployNewFS = async () => {
+    if (newFSName.trim()) {
+      const newAddress = await createFS(newFSName);
+      if (newAddress !== "0") {
+        setFSAddresses([...fsAddresses, newAddress]);
+        setNewFSName("");
+      }
     }
   };
 
@@ -51,7 +62,7 @@ export default function Home(): React.ReactElement {
       ) : role === "owner" ? (
         <div>
           <h2>Select a Finance System</h2>
-          {fsAddresses.length > 0 ? (
+          {fsAddresses.length > 0 && (
             <>
               <select onChange={(e) => setSelectedFSAddress(e.target.value)}>
                 <option value="">Select an address</option>
@@ -63,9 +74,17 @@ export default function Home(): React.ReactElement {
                 Login
               </button>
             </>
-          ) : (
-            <p>No deployed finance systems found.</p>
           )}
+          <h2>Deploy a New Finance System</h2>
+          <input
+            type="text"
+            placeholder="Finance System Name"
+            value={newFSName}
+            onChange={(e) => setNewFSName(e.target.value)}
+          />
+          <button onClick={handleDeployNewFS} disabled={!newFSName.trim()}>
+            Deploy
+          </button>
         </div>
       ) : (
         <div>
@@ -77,7 +96,7 @@ export default function Home(): React.ReactElement {
             onChange={(e) => setSelectedFSAddress(e.target.value)} 
           />
           <button onClick={handleSelectFSAddress} disabled={!selectedFSAddress}>
-            Go to Dashboard
+            Login
           </button>
         </div>
       )}

@@ -3,9 +3,10 @@ import { ethers } from "ethers";
 import contractABI from "./fsabi.json";
 
 interface ContractContextType {
-  setFinanceContract: () => Promise<void>;
+  setFinanceContract: (addr : string, sign : ethers.Signer)  => Promise<void>;
   contractInstance: ethers.Contract | null;
   account: string | null;
+  orgName: string | null;
   signer: ethers.Signer | null;
   setContractSignerAccount: (address: string, sign: ethers.Signer, account: string) => void;
   addTransaction: (amount: number,description: string,recipient: string,sender: string,sentToOrg: boolean,timestamp: number) => void;
@@ -21,12 +22,16 @@ export const FsContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [contractInstance, setContractInstance] = useState<ethers.Contract | null>(null);
   const [signer, setSigner] = useState<ethers.Signer | null>(null);
   const [account, setAccount] = useState<string | null>(null);
+  const [orgName, setOrgName] = useState<string | null>(null);
 
-  const setFinanceContract = async () => {
+  const setFinanceContract = async (addr : string, sign : ethers.Signer) => {
     console.log("details are", contractAddress, signer);
-    if (contractAddress!=null && signer!=null) {
+    console.log("details are", addr, sign);
+    if (addr!=null && sign!=null) {
       try {
-        const contract = new ethers.Contract(contractAddress, contractABI, signer);
+        const contract = new ethers.Contract(addr, contractABI, sign);
+        const orgname = await contract.getOrgName();
+        setOrgName(orgname);
         setContractInstance(contract);
         console.log("Contract is", contract);
         console.log("Contract initialized");
@@ -79,7 +84,7 @@ export const FsContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   return (
     <FsContractContext.Provider
-      value={{setFinanceContract,contractInstance,account,signer,setContractSignerAccount,addTransaction,getTransactions,getAccounts,getRecentTransactions,}}>
+      value={{setFinanceContract,contractInstance,account,signer,setContractSignerAccount,addTransaction,getTransactions,orgName,getAccounts,getRecentTransactions,}}>
       {children}
     </FsContractContext.Provider>
   );

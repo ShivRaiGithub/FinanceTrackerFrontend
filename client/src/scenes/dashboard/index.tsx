@@ -21,7 +21,6 @@ function convertTransactionDates(transactions: TransactionData[]): GetTransactio
     return {
       ...transaction,
       amount: Number(transaction.amount),
-      accountBalance: Number(transaction.accountBalance),
       timestamp: Number(transaction.timestamp),
       date: {
         day: date.getDate(),
@@ -109,7 +108,6 @@ const Dashboard = () => {
           sender: transaction.sender,
           sentToOrg: transaction.sentToOrg,
           timestamp: transaction.timestamp.toString(),      // Convert number to string
-          accountBalance: transaction.accountBalance.toString(), // Convert number to string
         }));
         
         setTransactions(formattedTransactions);
