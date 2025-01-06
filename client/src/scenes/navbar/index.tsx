@@ -11,21 +11,28 @@ const Navbar = (props: Props) => {
   const { initialized, isOwner } = useContract();
   const { orgName } = useFSContract();
   const { palette } = useTheme();
-  const [selected, setSelected] = useState("dashboard");
+  const [selected, setSelected] = useState("/");
 
   return (
-    <FlexBetween mb="0.25rem" p="0.5rem 0rem" color={palette.grey[300]}>
+    <FlexBetween mb="0.25rem" p="0.5rem 0rem" color={palette.grey[100]}>
       <FlexBetween gap="2rem">
         <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
           <Link
             to="/"
-            onClick={() => setSelected("dashboard")}
+            onClick={() => setSelected("/")}
             style={{
-              color: selected === "dashboard" ? "inherit" : palette.grey[700],
+              color: selected === "/" ? palette.grey[100] : palette.grey[400],
               textDecoration: "inherit",
             }}
           >
+              <Box
+              sx={{
+                "&:hover": { color: palette.secondary[100] },
+                transition: "color 0.2s ease-in-out",
+              }}
+            >
             Home
+        </Box>
           </Link>
         </Box>
 
@@ -38,11 +45,18 @@ const Navbar = (props: Props) => {
                   to="/dashboard"
                   onClick={() => setSelected("dashboard")}
                   style={{
-                    color: selected === "dashboard" ? "inherit" : palette.grey[700],
+                    color: selected === "dashboard" ? palette.grey[100] : palette.grey[400],
                     textDecoration: "inherit",
                   }}
                 >
+                    <Box
+                    sx={{
+                      "&:hover": { color: palette.secondary[100] },
+                      transition: "color 0.2s ease-in-out",
+                    }}
+                  >
                   Dashboard
+              </Box>
                 </Link>
               </Box>
               <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
@@ -50,11 +64,18 @@ const Navbar = (props: Props) => {
                   to="/accounts"
                   onClick={() => setSelected("accounts")}
                   style={{
-                    color: selected === "accounts" ? "inherit" : palette.grey[700],
+                    color: selected === "accounts" ? palette.grey[100] : palette.grey[400],
                     textDecoration: "inherit",
                   }}
                 >
+                    <Box
+                    sx={{
+                      "&:hover": { color: palette.secondary[100] },
+                      transition: "color 0.2s ease-in-out",
+                    }}
+                  >
                   Accounts
+              </Box>
                 </Link>
               </Box>
               <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
@@ -62,11 +83,18 @@ const Navbar = (props: Props) => {
                   to="/transactions"
                   onClick={() => setSelected("transactions")}
                   style={{
-                    color: selected === "transactions" ? "inherit" : palette.grey[700],
+                    color: selected === "transactions" ? palette.grey[100] : palette.grey[400],
                     textDecoration: "inherit",
                   }}
                 >
+                    <Box
+                    sx={{
+                      "&:hover": { color: palette.secondary[100] },
+                      transition: "color 0.2s ease-in-out",
+                    }}
+                  >
                   Transactions
+              </Box>
                 </Link>
               </Box>
               </>
@@ -77,11 +105,18 @@ const Navbar = (props: Props) => {
                 to="/logTransaction"
                 onClick={() => setSelected("logTransaction")}
                 style={{
-                  color: selected === "logTransaction" ? "inherit" : palette.grey[700],
+                  color: selected === "logTransaction" ? palette.grey[100] : palette.grey[400],
                   textDecoration: "inherit",
                 }}
               >
+                  <Box
+                  sx={{
+                    "&:hover": { color: palette.secondary[100] },
+                    transition: "color 0.2s ease-in-out",
+                  }}
+                >
                 Log Transaction
+            </Box>
               </Link>
             </Box>
           </>
