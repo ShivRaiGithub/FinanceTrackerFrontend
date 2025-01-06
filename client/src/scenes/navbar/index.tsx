@@ -57,6 +57,18 @@ const Navbar = (props: Props) => {
                   Accounts
                 </Link>
               </Box>
+              <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
+                <Link
+                  to="/transactions"
+                  onClick={() => setSelected("transactions")}
+                  style={{
+                    color: selected === "transactions" ? "inherit" : palette.grey[700],
+                    textDecoration: "inherit",
+                  }}
+                >
+                  Transactions
+                </Link>
+              </Box>
               </>
             )}
 

@@ -13,8 +13,6 @@ const Accounts = () => {
   const { account: ownerAccount } = useOoContract();
   const [trackedAccounts, setTrackedAccounts] = useState<Account[]>([]);
   const [newAccount, setNewAccount] = useState("");
-  console.log("Owner acc is", ownerAccount);
-
 
   const fetchAccounts = async () => {
     if(ownerAccount) {

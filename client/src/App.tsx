@@ -9,6 +9,7 @@ import Navbar from "@/scenes/navbar";
 import Dashboard from "@/scenes/dashboard";
 import Home from "@/scenes/Home";
 import Accounts from "@/scenes/Accounts";
+import Transactions from "@/scenes/transactions";
 import LogTransaction from "@/scenes/logTransaction";
 import { OoContractProvider } from "./connection/ooContractContext";
 import { FsContractProvider } from "./connection/fsContractContext";
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/logTransaction" element={<LogTransaction />} />
                 <Route path="/accounts" element={<Accounts />} />
+                <Route path="/transactions" element={<Transactions />} />
               </Routes>
             </Box>
           </ThemeProvider>

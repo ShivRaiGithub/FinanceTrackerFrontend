@@ -13,9 +13,12 @@ const Row3: React.FC<Props> = ({ trackedAccounts, updatedTransactionsList }) => 
   const [latestTransactions, setLatestTransactions] = useState<GetTransactionsResponse[]>([]);
 
   useEffect(() => {
-    const latestTxns = [...updatedTransactionsList].reverse().slice(0, 10); // Get latest 5 transactions
+    const latestTxns = [...updatedTransactionsList]
+      .sort((a, b) => b.timestamp - a.timestamp) // Sort in descending order
+      .slice(0, 10); // Take the latest 10 transactions
     setLatestTransactions(latestTxns);
   }, [updatedTransactionsList]);
+  
 
 
   const { palette } = useTheme();
