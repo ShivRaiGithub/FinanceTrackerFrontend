@@ -3,7 +3,6 @@ import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useContract } from "@/connection/fsContractContext";
 import { GetTransactionsResponse } from "@/state/types";
-import BoxHeader from "@/components/BoxHeader";
 import DashboardBox from "@/components/DashboardBox";
 
 const Transactions = () => {
@@ -63,20 +62,23 @@ const Transactions = () => {
   ];
 
   return (
-    <Box width="100%" height="80vh"  p={3}>
-      <DashboardBox>
-        <BoxHeader title="All Transactions" />
-        <Box height={500}>
+    <div className="flex justify-center items-center">
+      <div className="h-[90vh] w-[100vw] bg-[#5D2E8C] rounded-md overflow-hidden p-4 shadow-lg">
+        <h2 className="text-[#ffdf80] text-2xl font-bold mb-4">Transaction History</h2>
+        <div className="h-[80vh] bg-[#e6e6e6] rounded-md p-2 overflow-auto">
           <DataGrid
             rows={transactions}
             columns={columns}
             getRowId={(row) => `${row.timestamp}-${row.sender}`} // Ensure unique row IDs
             pageSize={10}
+            className="bg-white text-black"
           />
-        </Box>
-      </DashboardBox>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
+  
+  
 };
 
 export default Transactions;

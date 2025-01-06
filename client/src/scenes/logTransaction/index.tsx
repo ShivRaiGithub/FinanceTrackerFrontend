@@ -13,7 +13,6 @@ const LogTransaction: React.FC = () => {
     sender: '',
     sentToOrg: false,
     timestamp: '',
-    accountBalance: ''
   });
   const [notification, setNotification] = useState<string>('');
 
@@ -49,7 +48,6 @@ const LogTransaction: React.FC = () => {
           sender: '',
           sentToOrg: false,
           timestamp: '',
-          accountBalance: ''
         });
 
         // Clear notification after 3 seconds
