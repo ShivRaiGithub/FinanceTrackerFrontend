@@ -68,7 +68,8 @@ const Accounts = () => {
   
   return (
     <div className="w-full p-4">
-      <div className="bg-white shadow-md rounded-lg p-6">
+      <div className=" shadow-md rounded-lg p-6" style={{
+            backgroundColor: '#E8D7FF'}}>
         {/* Input Field and Add Button */}
         <div className="flex gap-4 mb-4">
           <input

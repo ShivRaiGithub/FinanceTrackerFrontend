@@ -63,9 +63,9 @@ const Transactions = () => {
 
   return (
     <div className="flex justify-center items-center">
-      <div className="h-[90vh] w-[100vw] bg-[#5D2E8C] rounded-md overflow-hidden p-4 shadow-lg">
-        <h2 className="text-[#ffdf80] text-2xl font-bold mb-4">Transaction History</h2>
-        <div className="h-[80vh] bg-[#e6e6e6] rounded-md p-2 overflow-auto">
+      <div className="h-[90vh] w-[100vw] bg-[#E8D7FF] rounded-md overflow-hidden p-4 shadow-lg" >
+        <h2 className="text-[#ff6666] text-2xl font-bold mb-4">Transaction History</h2>
+        <div className="h-[80vh] bg-[#010101] rounded-md p-2 overflow-auto">
           <DataGrid
             rows={transactions}
             columns={columns}

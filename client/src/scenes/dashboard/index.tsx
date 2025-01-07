@@ -93,6 +93,20 @@ const Dashboard = () => {
   const [sentReceived, setSentReceived] = useState<SentReceived>({ sent: 0, received: 0 });
   const [accountList, setAccountList] = useState<Account[]>([]);
 
+
+  // Function to get the last 12 months' transactions
+function getLast12MonthsTransactions(transactions: GetTransactionsResponse[]): GetTransactionsResponse[] {
+  const now = new Date();
+  const last12Months = new Date();
+  last12Months.setMonth(now.getMonth() - 12); // 12 months ago
+
+  return transactions.filter((transaction) => {
+    const transactionDate = new Date(transaction.timestamp * 1000);
+    return transactionDate >= last12Months; // Only keep transactions within the last 12 months
+  });
+}
+
+
   
   useEffect(() => {
     const getData = async () => {
@@ -118,17 +132,16 @@ const Dashboard = () => {
         setAccountList(formattedAccounts);
 
         // Process transactions and set other states
-        const processedTransaction: GetTransactionsResponse[] = convertTransactionDates(formattedTransactions);
-        setProcessedTxn(processedTransaction);
-        
-        const transactionsPerMonth = calculateTransactionsPerMonth(processedTransaction);
-        setTransactionsPerMonth(transactionsPerMonth);
+        let processedTransaction: GetTransactionsResponse[] = convertTransactionDates(formattedTransactions);
 
-        const amountPerMonth = calculateAmountOfMoneyPerMonth(processedTransaction);
-        setAmountPerMonth(amountPerMonth);
+      // ✅ **Filter only last 12 months**
+      processedTransaction = getLast12MonthsTransactions(processedTransaction);
+      setProcessedTxn(processedTransaction);
 
-        const sentReceived = calculateTotalSentReceived(processedTransaction);
-        setSentReceived(sentReceived);
+      // ✅ Update calculations to use filtered transactions
+      setTransactionsPerMonth(calculateTransactionsPerMonth(processedTransaction));
+      setAmountPerMonth(calculateAmountOfMoneyPerMonth(processedTransaction));
+      setSentReceived(calculateTotalSentReceived(processedTransaction));
       }
     };
 
