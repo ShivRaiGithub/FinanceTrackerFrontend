@@ -9,7 +9,7 @@ interface Props {
   updatedTransactionsList: GetTransactionsResponse[];
 }
 
-const Row3: React.FC<Props> = ({ trackedAccounts, updatedTransactionsList }) => {
+const Row2: React.FC<Props> = ({ trackedAccounts, updatedTransactionsList }) => {
   const [latestTransactions, setLatestTransactions] = useState<GetTransactionsResponse[]>([]);
 
   useEffect(() => {
@@ -133,4 +133,4 @@ const Row3: React.FC<Props> = ({ trackedAccounts, updatedTransactionsList }) => 
   );
 };
 
-export default Row3;
+export default Row2;

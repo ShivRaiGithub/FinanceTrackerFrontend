@@ -27,16 +27,13 @@ export const FsContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [orgName, setOrgName] = useState<string | null>(null);
 
   const setFinanceContract = async (addr : string, sign : ethers.Signer) => {
-    console.log("details are", contractAddress, signer);
-    console.log("details are", addr, sign);
+
     if (addr!=null && sign!=null) {
       try {
         const contract = new ethers.Contract(addr, contractABI, sign);
         const orgname = await contract.getOrgName();
         setOrgName(orgname);
         setContractInstance(contract);
-        console.log("Contract is", contract);
-        console.log("Contract initialized");
       } catch (error) {
         console.error("Failed to connect wallet:", error);
       }
@@ -55,10 +52,8 @@ export const FsContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   const addTransaction = async (amount: number,description: string,recipient: string,sender: string,sentToOrg: boolean,timestamp: number) => {
     if (contractInstance) {
-      console.log("Adding transaction");
       const tx = await contractInstance.addTransaction(amount, description, recipient, sender, sentToOrg, timestamp);
       await tx.wait();
-      console.log("Transaction added");
     }
   };
 
@@ -81,7 +76,6 @@ export const FsContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     if (contractInstance) {
       const txn = await contractInstance.addAccount(acc);
       await txn.wait();
-      console.log("Account added");
     }
   };
 
@@ -89,7 +83,6 @@ export const FsContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     if (contractInstance) {
       const txn = await contractInstance.removeAccount(acc);
       await txn.wait();
-      console.log("Account remmoved");
     }
   };
 

@@ -14,7 +14,6 @@ const Transactions = () => {
     const fetchTransactions = async () => {
       try {
         const txnList = await getTransactions();
-        console.log("Transactions fetched:", txnList); // Debugging
 
         if (txnList && txnList.length > 0) {
           // Map the transaction data to a new structure with named fields
@@ -29,7 +28,6 @@ const Transactions = () => {
           // Sort transactions by timestamp in descending order
           updatedTxnList.sort((a, b) => b.timestamp - a.timestamp);
 
-          console.log("Sorted Transactions:", updatedTxnList); // Debugging
           setTransactions(updatedTxnList);
         } else {
           console.log("No transactions found.");

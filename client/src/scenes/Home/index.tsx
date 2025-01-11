@@ -6,7 +6,7 @@ import { Box, Typography, useTheme } from "@mui/material";
 
 
 export default function Home(): React.ReactElement {
-  const { connectWallet, account, settingInitTrue, getFSAddressesByOwner, signer, setIfOwner, createFS } = useContract();
+  const { connectWallet, account, settingInitTrue, getFSAddressesByOwner, signer, setIfOwner, createFS, checkAddr } = useContract();
   const { setContractSignerAccount, setFinanceContract } = useFSContract();
   const { palette } = useTheme();
   const navigate = useNavigate();
@@ -15,11 +15,10 @@ export default function Home(): React.ReactElement {
   const [fsAddresses, setFSAddresses] = useState<string[]>([]);
   const [selectedFSAddress, setSelectedFSAddress] = useState<string>("");
   const [newFSName, setNewFSName] = useState<string>("");
-
+  const [warn, setWarn] = useState<boolean>(false);
   const handleOwnerLogin = async () => {
     if (account) {
       const addresses = await getFSAddressesByOwner();
-      console.log(addresses);
       setFSAddresses(addresses);
       setIfOwner(true);
       setRole("owner");
@@ -29,6 +28,18 @@ export default function Home(): React.ReactElement {
   const handleUserLogin = () => {
     setIfOwner(false);
     setRole("user");
+  };
+
+  const handleSelectFSAddressB = async () => {
+    if (checkAddr && selectedFSAddress) {
+      const isValid = await checkAddr(selectedFSAddress);
+      if (isValid) {
+        handleSelectFSAddress();
+        return;
+      }
+    }
+    setWarn(true);
+    setTimeout(() => setWarn(false), 1000);
   };
 
   const handleSelectFSAddress = () => {
@@ -196,7 +207,7 @@ export default function Home(): React.ReactElement {
             }}
           />
           <button
-            onClick={handleSelectFSAddress}
+            onClick={handleSelectFSAddressB}
             disabled={!selectedFSAddress}
             className="px-6 py-3 w-full font-semibold rounded-lg shadow-md "
             style={{
@@ -207,6 +218,12 @@ export default function Home(): React.ReactElement {
           >
             Login
           </button>
+{warn  && (<h2 className="text-l font-semibold mt-2" style={{ color: "#4d4d4d" }}>
+            Please check address again
+          </h2>) 
+}
+          
+        
         </div>
       )}
     </div>

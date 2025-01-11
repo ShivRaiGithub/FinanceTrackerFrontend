@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Box, useMediaQuery } from "@mui/material";
 import Row1 from "./Row1";
-import Row3 from "./Row3";
+import Row2 from "./Row2";
 import { useContract } from "@/connection/fsContractContext";
 import {
   GetTransactionsResponse,
@@ -189,7 +189,7 @@ function getLast12MonthsTransactions(transactions: GetTransactionsResponse[]): G
           totalAmountPerMonth={amountPerMonth}
           receivedVsSent={sentReceived}
         />
-      <Row3
+      <Row2
         trackedAccounts={accountList}
         updatedTransactionsList={processedTxn}
       />

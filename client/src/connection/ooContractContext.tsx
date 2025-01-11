@@ -20,6 +20,7 @@ interface ContractContextType {
   settingInitTrue: ()=> void;
   setIfOwner: (val: boolean)=> void;
   createFS: (orgName: string) => Promise<any> | "0";
+  checkAddr: (addr: string) => Promise<any> | false;
   getFSAddressesByOwner: () => Promise<any>;
 }
 
@@ -81,6 +82,14 @@ export const OoContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     return [];
   };
 
+  const checkAddr = async(addr:string)=>{
+    if (ooContractInstance) {
+    const isValid = await ooContractInstance.checkIfContractExists(addr);
+    return isValid;
+  }
+  return false;
+  };
+
   return (
     <OoContractContext.Provider
       value={{
@@ -94,6 +103,7 @@ export const OoContractProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         setIfOwner,
         createFS,
         getFSAddressesByOwner,
+        checkAddr
       }}
     >
       {children}
