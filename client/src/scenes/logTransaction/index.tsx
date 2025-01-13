@@ -66,7 +66,7 @@ const LogTransaction: React.FC = () => {
     { label: 'Description', type: 'textarea', name: 'description' },
     { label: 'Recipient', type: 'text', name: 'recipient' },
     { label: 'Sender', type: 'text', name: 'sender' },
-    { label: 'Sent to Organization', type: 'checkbox', name: 'sentToOrg' },
+    { label: 'Received', type: 'checkbox', name: 'sentToOrg' },
     { label: 'Timestamp', type: 'datetime-local', name: 'timestamp' },
   ];
 

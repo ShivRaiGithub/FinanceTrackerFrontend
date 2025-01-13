@@ -63,7 +63,7 @@ export default function Home(): React.ReactElement {
   
   return (
     <div className="min-h-screen flex flex-col justify-center items-center p-4"
-      style={{ backgroundColor: "#E8D7FF", color: "#1a1a1a" }} // Background & text color
+      style={{ backgroundColor: "#E8D7FF", color: "#1a1a1a" }} 
     >
       <h1 className="text-3xl font-bold mb-2 text-center" style={{ color: "#5D2E8C" }}>
         Organization Finance Tracker

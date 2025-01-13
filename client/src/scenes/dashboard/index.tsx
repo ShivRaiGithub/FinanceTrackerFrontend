@@ -14,7 +14,6 @@ import {
 } from '@/state/types';
  
 
-// Convert TransactionData[] to GetTransactionsResponse[] with formatted dates
 function convertTransactionDates(transactions: TransactionData[]): GetTransactionsResponse[] {
   return transactions.map(transaction => {
     const date = new Date(Number(transaction.timestamp) * 1000); 
@@ -24,7 +23,7 @@ function convertTransactionDates(transactions: TransactionData[]): GetTransactio
       timestamp: Number(transaction.timestamp),
       date: {
         day: date.getDate(),
-        month: date.getMonth() + 1, // Months are zero-indexed
+        month: date.getMonth() + 1,
         year: date.getFullYear()
       }
     };
@@ -94,15 +93,14 @@ const Dashboard = () => {
   const [accountList, setAccountList] = useState<Account[]>([]);
 
 
-  // Function to get the last 12 months' transactions
 function getLast12MonthsTransactions(transactions: GetTransactionsResponse[]): GetTransactionsResponse[] {
   const now = new Date();
   const last12Months = new Date();
-  last12Months.setMonth(now.getMonth() - 12); // 12 months ago
+  last12Months.setMonth(now.getMonth() - 12);
 
   return transactions.filter((transaction) => {
     const transactionDate = new Date(transaction.timestamp * 1000);
-    return transactionDate >= last12Months; // Only keep transactions within the last 12 months
+    return transactionDate >= last12Months;
   });
 }
 
@@ -111,17 +109,15 @@ function getLast12MonthsTransactions(transactions: GetTransactionsResponse[]): G
   useEffect(() => {
     const getData = async () => {
       if (contractInstance) {
-        // Fetch transactions data
         const transactionsData: GetTransactionsResponse[] = await getTransactions();
         
-        // Convert transaction data into objects of type TransactionData
         const formattedTransactions: TransactionData[] = transactionsData.map(transaction => ({
-          amount: transaction.amount.toString(),           // Convert number to string
+          amount: transaction.amount.toString(), 
           description: transaction.description,
           recipient: transaction.recipient,
           sender: transaction.sender,
           sentToOrg: transaction.sentToOrg,
-          timestamp: transaction.timestamp.toString(),      // Convert number to string
+          timestamp: transaction.timestamp.toString(),
         }));
         
         setTransactions(formattedTransactions);
@@ -134,11 +130,9 @@ function getLast12MonthsTransactions(transactions: GetTransactionsResponse[]): G
         // Process transactions and set other states
         let processedTransaction: GetTransactionsResponse[] = convertTransactionDates(formattedTransactions);
 
-      // ✅ **Filter only last 12 months**
       processedTransaction = getLast12MonthsTransactions(processedTransaction);
       setProcessedTxn(processedTransaction);
 
-      // ✅ Update calculations to use filtered transactions
       setTransactionsPerMonth(calculateTransactionsPerMonth(processedTransaction));
       setAmountPerMonth(calculateAmountOfMoneyPerMonth(processedTransaction));
       setSentReceived(calculateTotalSentReceived(processedTransaction));

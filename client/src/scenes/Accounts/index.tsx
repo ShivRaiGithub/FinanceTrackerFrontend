@@ -35,15 +35,15 @@ const Accounts = () => {
   const handleAddAccount = async () => {
     if (newAccount.trim()) {
       await addAccount(newAccount);
-      await fetchAccounts(); // Refetch accounts after adding
+      await fetchAccounts(); 
       setNewAccount("");
     }
   };
 
   const handleRemoveAccount = async (accountId: string) => {
-    if (accountId !== ownerAccount) { // Prevent removing owner
+    if (accountId !== ownerAccount) { 
       await removeAccount(accountId);
-      await fetchAccounts(); // Refetch accounts after removing
+      await fetchAccounts();
     }
   };
 
